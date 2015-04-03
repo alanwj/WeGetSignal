@@ -8,6 +8,8 @@ fgen_SOURCES = fgen.c \
                fgen_app.h \
                fgen_app_window.c \
                fgen_app_window.h \
+               function_display.c \
+               function_display.h \
                resources.c
 
 BUILT_SOURCES = resources.c

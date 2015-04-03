@@ -8,6 +8,10 @@ AM_PATH_GTK_3_0
 AC_PROG_CC
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, [glib-compile-resources])
 
+AC_SEARCH_LIBS([cos], [m], [], [
+  AC_MSG_ERROR([unable to find cos function])
+])
+
 AC_CONFIG_FILES([
   Makefile
   src/Makefile
