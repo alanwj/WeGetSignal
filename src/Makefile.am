@@ -10,7 +10,11 @@ fgen_SOURCES = fgen.c \
                fgen_app_window.h \
                function_display.c \
                function_display.h \
-               resources.c
+               resources.c \
+               signal_function.c \
+               signal_function.h \
+               sin_function.c \
+               sin_function.h
 
 BUILT_SOURCES = resources.c
 CLEANFILES = $(BUILT_SOURCES)
