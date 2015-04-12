@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/com/alanwj/FGen">
+  <gresource prefix="/com/alanwj/WeGetSignal">
     <file preprocess="xml-stripblanks">main-window.ui</file>
   </gresource>
 </gresources>

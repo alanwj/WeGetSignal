@@ -1,23 +1,24 @@
-bin_PROGRAMS = fgen
+bin_PROGRAMS = WeGetSignal
 
-fgen_CFLAGS = @GTK_CFLAGS@ -std=c99 -Wall -Werror -pedantic
-fgen_LDADD = @GTK_LIBS@
+WeGetSignal_CFLAGS = @GTK_CFLAGS@ -std=c99 -Wall -Werror -pedantic
+WeGetSignal_LDADD = @GTK_LIBS@
 
-fgen_SOURCES = fgen.c \
-               fgen_app.c \
-               fgen_app.h \
-               fgen_app_window.c \
-               fgen_app_window.h \
-               function_display.c \
-               function_display.h \
-               resources.c \
-               signal_function.c \
-               signal_function.h \
-               sin_function.c \
-               sin_function.h
+WeGetSignal_SOURCES = \
+    function_display.c \
+    function_display.h \
+    resources.c \
+    signal_function.c \
+    signal_function.h \
+    sin_function.c \
+    sin_function.h \
+    wgs.c \
+    wgs_app.c \
+    wgs_app.h \
+    wgs_app_window.c \
+    wgs_app_window.h
 
 BUILT_SOURCES = resources.c
 CLEANFILES = $(BUILT_SOURCES)
 
-resources.c: fgen.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies fgen.gresource.xml)
-	$(GLIB_COMPILE_RESOURCES) $(srcdir)/fgen.gresource.xml --target=$@ --sourcedir=$(srcdir) --generate-source
+resources.c: wgs.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies wgs.gresource.xml)
+	$(GLIB_COMPILE_RESOURCES) $(srcdir)/wgs.gresource.xml --target=$@ --sourcedir=$(srcdir) --generate-source

@@ -1,6 +1,6 @@
 AC_PREREQ([2.69])
-AC_INIT([fgen], [0.1], [alan.wayne.johnson@gmail.com])
-AC_CONFIG_SRCDIR([src/fgen.c])
+AC_INIT([WeGetSignal], [0.1], [alan.wayne.johnson@gmail.com])
+AC_CONFIG_SRCDIR([src/wgs.c])
 
 AM_INIT_AUTOMAKE([foreign -Wall -Werror -Wno-portability])
 AM_PATH_GTK_3_0

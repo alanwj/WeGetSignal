@@ -6,7 +6,7 @@
 *.swo
 
 # Output binaries
-fgen
+WeGetSignal
 
 # Built sources
 /src/resources.c

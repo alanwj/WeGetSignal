@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="FGenAppWindow" parent="GtkApplicationWindow">
+  <template class="WgsAppWindow" parent="GtkApplicationWindow">
     <property name="title">Function Generator</property>
     <property name="border-width">10</property>
     <property name="default-width">600</property>
