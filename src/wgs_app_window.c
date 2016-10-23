@@ -2,15 +2,15 @@
 
 #include <gtk/gtk.h>
 
+#include "function.h"
 #include "function_display.h"
-#include "signal_function.h"
-#include "sin_function.h"
+#include "sine.h"
 
 struct _WgsAppWindow {
   GtkApplicationWindow parent;
 
   // HACK: remove in the future
-  SignalFunction *func;
+  Function* fn;
 };
 
 struct _WgsAppWindowClass {
@@ -24,17 +24,17 @@ static void show(GtkWidget *widget, gpointer data) {
   WgsAppWindow *self = WGS_APP_WINDOW(widget);
   FunctionDisplay *display = FUNCTION_DISPLAY(gtk_bin_get_child(GTK_BIN(self)));
 
-  SignalFunctionEvaluation *eval = signal_function_evaluation_new(0.0, 1.0, 44100);
-  signal_function_eval_range(self->func, eval);
-  function_display_update(display, eval);
-  signal_function_evaluation_free(eval);
+  const size_t count = 100000;
+  double samples[count];
+  FunctionEval(self->fn, samples, count);
+  function_display_update(display, samples, count);
 }
 
 static void wgs_app_window_init(WgsAppWindow *self) {
   gtk_widget_init_template(GTK_WIDGET(self));
 
   // HACK: remove in the future
-  self->func = sin_function_new(1.0, 2.0, 0.0);
+  self->fn = FUNCTION(SineNew(1.0, 1.0, 0.0));
   g_signal_connect(self, "show", G_CALLBACK(show), NULL);
 }
 

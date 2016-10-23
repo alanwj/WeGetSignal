@@ -4,13 +4,13 @@ WeGetSignal_CFLAGS = @GTK_CFLAGS@ -std=c99 -Wall -Werror -pedantic
 WeGetSignal_LDADD = @GTK_LIBS@
 
 WeGetSignal_SOURCES = \
+    function.h \
+    function.c \
     function_display.c \
     function_display.h \
     resources.c \
-    signal_function.c \
-    signal_function.h \
-    sin_function.c \
-    sin_function.h \
+    sine.h \
+    sine.c \
     wgs.c \
     wgs_app.c \
     wgs_app.h \

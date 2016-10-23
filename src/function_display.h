@@ -2,8 +2,7 @@
 #define   FUNCTION_DISPLAY_H_
 
 #include <gtk/gtk.h>
-
-#include "signal_function.h"
+#include <stddef.h>
 
 #define FUNCTION_DISPLAY_TYPE   (function_display_get_type())
 #define FUNCTION_DISPLAY(obj)   (G_TYPE_CHECK_INSTANCE_CAST((obj), FUNCTION_DISPLAY_TYPE, FunctionDisplay))
@@ -15,6 +14,6 @@ GType function_display_get_type(void);
 
 GtkWidget *function_display_new(void);
 
-void function_display_update(FunctionDisplay *self, SignalFunctionEvaluation *eval);
+void function_display_update(FunctionDisplay *self, double* samples, size_t count);
 
 #endif    // FUNCTION_DISPLAY_H_

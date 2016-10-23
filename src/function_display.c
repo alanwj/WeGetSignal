@@ -3,8 +3,6 @@
 #include <gtk/gtk.h>
 #include <math.h>
 
-#include "signal_function.h"
-
 struct _FunctionDisplay {
   GtkDrawingArea parent;
 
@@ -45,7 +43,7 @@ GtkWidget *function_display_new(void) {
   return GTK_WIDGET(g_object_new(FUNCTION_DISPLAY_TYPE, NULL));
 }
 
-void function_display_update(FunctionDisplay *self, SignalFunctionEvaluation *eval) {
+void function_display_update(FunctionDisplay *self, double* samples, size_t count) {
   GtkWidget *self_widget = GTK_WIDGET(self);
 
   const guint width = gtk_widget_get_allocated_width(self_widget);
@@ -62,12 +60,12 @@ void function_display_update(FunctionDisplay *self, SignalFunctionEvaluation *ev
   cairo_translate(cr, 0.0, height / 2.0);
 
   // This should be doable with cairo_scale, but it doesn't work for whatever reason.
-  const double xscale = width / (double) (eval->sample_count - 1);
+  const double xscale = width / (double) (count - 1);
   const double yscale = height / -2.0;
 
-  cairo_move_to(cr, 0.0, eval->samples[0]);
-  for (size_t i = 1; i < eval->sample_count; ++i) {
-    cairo_line_to(cr, i * xscale, eval->samples[i] * yscale);
+  cairo_move_to(cr, 0.0, samples[0]);
+  for (size_t i = 1; i < count; ++i) {
+    cairo_line_to(cr, i * xscale, samples[i] * yscale);
   }
   cairo_stroke(cr);
   cairo_destroy(cr);
