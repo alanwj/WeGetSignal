@@ -9,9 +9,6 @@
 
 struct _WgsAppWindow {
   GtkApplicationWindow parent;
-
-  // HACK: remove in the future
-  Function* fn;
 };
 
 struct _WgsAppWindowClass {
@@ -24,15 +21,12 @@ G_DEFINE_TYPE(WgsAppWindow, wgs_app_window, GTK_TYPE_APPLICATION_WINDOW)
 static void show(GtkWidget *widget, gpointer data) {
   WgsAppWindow *self = WGS_APP_WINDOW(widget);
   GtkWidget *display = gtk_bin_get_child(GTK_BIN(self));
-
-  const size_t count = 100000;
-  double samples[count];
-  FunctionEval(self->fn, samples, count);
-  FunctionDisplayUpdate(display, samples, count);
+  gtk_widget_queue_draw(display);
 }
 
 static void wgs_app_window_init(WgsAppWindow *self) {
   gtk_widget_init_template(GTK_WIDGET(self));
+  GtkWidget *display = gtk_bin_get_child(GTK_BIN(self));
 
   // HACK: remove in the future
   WeightedSum* ws_fn = WeightedSumNew();
@@ -41,8 +35,9 @@ static void wgs_app_window_init(WgsAppWindow *self) {
   WeightedSumAdd(ws_fn, FUNCTION(SineNew(1.0, 3.0, 0.0)), 1.0);
   WeightedSumAdd(ws_fn, FUNCTION(SineNew(1.0, 4.0, 0.0)), 1.0);
   WeightedSumAdd(ws_fn, FUNCTION(SineNew(1.0, 5.0, 0.0)), 1.0);
-  self->fn = FUNCTION(ws_fn);
 
+  const size_t count = 100000;
+  FunctionDisplaySetFunction(display, FUNCTION(ws_fn), count);
   g_signal_connect(self, "show", G_CALLBACK(show), NULL);
 }
 
