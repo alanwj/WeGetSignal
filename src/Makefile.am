@@ -11,6 +11,8 @@ WeGetSignal_SOURCES = \
     resources.c \
     sine.h \
     sine.c \
+    weighted_sum.h \
+    weighted_sum.c \
     wgs.c \
     wgs_app.c \
     wgs_app.h \

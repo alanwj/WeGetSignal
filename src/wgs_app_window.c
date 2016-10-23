@@ -5,6 +5,7 @@
 #include "function.h"
 #include "function_display.h"
 #include "sine.h"
+#include "weighted_sum.h"
 
 struct _WgsAppWindow {
   GtkApplicationWindow parent;
@@ -34,7 +35,14 @@ static void wgs_app_window_init(WgsAppWindow *self) {
   gtk_widget_init_template(GTK_WIDGET(self));
 
   // HACK: remove in the future
-  self->fn = FUNCTION(SineNew(1.0, 1.0, 0.0));
+  WeightedSum* ws_fn = WeightedSumNew();
+  WeightedSumAdd(ws_fn, FUNCTION(SineNew(1.0, 1.0, 0.0)), 1.0);
+  WeightedSumAdd(ws_fn, FUNCTION(SineNew(1.0, 2.0, 0.0)), 1.0);
+  WeightedSumAdd(ws_fn, FUNCTION(SineNew(1.0, 3.0, 0.0)), 1.0);
+  WeightedSumAdd(ws_fn, FUNCTION(SineNew(1.0, 4.0, 0.0)), 1.0);
+  WeightedSumAdd(ws_fn, FUNCTION(SineNew(1.0, 5.0, 0.0)), 1.0);
+  self->fn = FUNCTION(ws_fn);
+
   g_signal_connect(self, "show", G_CALLBACK(show), NULL);
 }
 
