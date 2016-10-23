@@ -17,7 +17,7 @@ G_DEFINE_TYPE(WgsApp, wgs_app, GTK_TYPE_APPLICATION)
 
 // Registers types that GtkBuilder will need to know about.
 static void register_types() {
-  function_display_get_type();
+  FunctionDisplayRegisterType();
 }
 
 static void wgs_app_activate(GApplication *app) {

@@ -1,12 +1,20 @@
 #include "function_display.h"
 
-#include <gtk/gtk.h>
-#include <math.h>
+// Provides the GObject type class for FunctionDisplay.
+#define FUNCTION_DISPLAY_TYPE (function_display_get_type())
+
+// Casts to a FunctionDisplay pointer.
+#define FUNCTION_DISPLAY(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), FUNCTION_DISPLAY_TYPE, FunctionDisplay))
+
+// A widget for drawing a Function. Derived from GtkDrawingArea.
+typedef struct _FunctionDisplay FunctionDisplay;
+typedef struct _FunctionDisplayClass FunctionDisplayClass;
 
 struct _FunctionDisplay {
   GtkDrawingArea parent;
 
-  cairo_surface_t *surface;
+  cairo_surface_t* surface;
 };
 
 struct _FunctionDisplayClass {
@@ -15,8 +23,9 @@ struct _FunctionDisplayClass {
 
 G_DEFINE_TYPE(FunctionDisplay, function_display, GTK_TYPE_DRAWING_AREA)
 
-static gboolean function_display_draw(GtkWidget *widget, cairo_t *cr, gpointer data) {
-  FunctionDisplay *self = FUNCTION_DISPLAY(widget);
+// Callback function for the "draw" event.
+static gboolean Draw(GtkWidget* widget, cairo_t* cr, gpointer data) {
+  FunctionDisplay* self = FUNCTION_DISPLAY(widget);
   if (self->surface != NULL) {
     cairo_set_source_surface(cr, self->surface, 0, 0);
     cairo_paint(cr);
@@ -30,27 +39,25 @@ static gboolean function_display_draw(GtkWidget *widget, cairo_t *cr, gpointer d
   return TRUE;
 }
 
-static void function_display_class_init(FunctionDisplayClass *klass) {
-}
+static void function_display_class_init(FunctionDisplayClass* klass) {}
 
-static void function_display_init(FunctionDisplay *self) {
+static void function_display_init(FunctionDisplay* self) {
   self->surface = NULL;
 
-  g_signal_connect(self, "draw", G_CALLBACK(function_display_draw), NULL);
+  g_signal_connect(self, "draw", G_CALLBACK(Draw), NULL);
 }
 
-GtkWidget *function_display_new(void) {
-  return GTK_WIDGET(g_object_new(FUNCTION_DISPLAY_TYPE, NULL));
-}
+void FunctionDisplayRegisterType(void) { function_display_get_type(); }
 
-void function_display_update(FunctionDisplay *self, double* samples, size_t count) {
-  GtkWidget *self_widget = GTK_WIDGET(self);
+void FunctionDisplayUpdate(GtkWidget* display, double* samples, size_t count) {
+  FunctionDisplay* self = FUNCTION_DISPLAY(display);
 
-  const guint width = gtk_widget_get_allocated_width(self_widget);
-  const guint height = gtk_widget_get_allocated_height(self_widget);
+  const guint width = gtk_widget_get_allocated_width(display);
+  const guint height = gtk_widget_get_allocated_height(display);
 
-  cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
-  cairo_t *cr = cairo_create(surface);
+  cairo_surface_t* surface =
+      cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
+  cairo_t* cr = cairo_create(surface);
 
   cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
   cairo_rectangle(cr, 0.0, 0.0, width, height);
@@ -59,8 +66,9 @@ void function_display_update(FunctionDisplay *self, double* samples, size_t coun
   cairo_set_source_rgb(cr, 0.0, 1.0, 0.0);
   cairo_translate(cr, 0.0, height / 2.0);
 
-  // This should be doable with cairo_scale, but it doesn't work for whatever reason.
-  const double xscale = width / (double) (count - 1);
+  // This should be doable with cairo_scale, but it doesn't work for whatever
+  // reason.
+  const double xscale = width / (double)(count - 1);
   const double yscale = height / -2.0;
 
   cairo_move_to(cr, 0.0, samples[0]);
@@ -70,10 +78,10 @@ void function_display_update(FunctionDisplay *self, double* samples, size_t coun
   cairo_stroke(cr);
   cairo_destroy(cr);
 
-  cairo_surface_t *old_surface = self->surface;
+  cairo_surface_t* old_surface = self->surface;
   self->surface = surface;
   if (old_surface != NULL) {
     cairo_surface_destroy(old_surface);
   }
-  gtk_widget_queue_draw(self_widget);
+  gtk_widget_queue_draw(display);
 }

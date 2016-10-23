@@ -1,19 +1,14 @@
-#ifndef   FUNCTION_DISPLAY_H_
-#define   FUNCTION_DISPLAY_H_
+#ifndef FUNCTION_DISPLAY_H_
+#define FUNCTION_DISPLAY_H_
 
 #include <gtk/gtk.h>
 #include <stddef.h>
 
-#define FUNCTION_DISPLAY_TYPE   (function_display_get_type())
-#define FUNCTION_DISPLAY(obj)   (G_TYPE_CHECK_INSTANCE_CAST((obj), FUNCTION_DISPLAY_TYPE, FunctionDisplay))
+// Ensures that the necessary types are registers with GObject so that
+// GtkBuilder can find them.
+void FunctionDisplayRegisterType(void);
 
-typedef struct _FunctionDisplay         FunctionDisplay;
-typedef struct _FunctionDisplayClass    FunctionDisplayClass;
+// HACK: remove in the future
+void FunctionDisplayUpdate(GtkWidget* display, double* samples, size_t count);
 
-GType function_display_get_type(void);
-
-GtkWidget *function_display_new(void);
-
-void function_display_update(FunctionDisplay *self, double* samples, size_t count);
-
-#endif    // FUNCTION_DISPLAY_H_
+#endif  // FUNCTION_DISPLAY_H_

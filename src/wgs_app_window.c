@@ -23,12 +23,12 @@ G_DEFINE_TYPE(WgsAppWindow, wgs_app_window, GTK_TYPE_APPLICATION_WINDOW)
 // HACK: remove in the future
 static void show(GtkWidget *widget, gpointer data) {
   WgsAppWindow *self = WGS_APP_WINDOW(widget);
-  FunctionDisplay *display = FUNCTION_DISPLAY(gtk_bin_get_child(GTK_BIN(self)));
+  GtkWidget *display = gtk_bin_get_child(GTK_BIN(self));
 
   const size_t count = 100000;
   double samples[count];
   FunctionEval(self->fn, samples, count);
-  function_display_update(display, samples, count);
+  FunctionDisplayUpdate(display, samples, count);
 }
 
 static void wgs_app_window_init(WgsAppWindow *self) {
