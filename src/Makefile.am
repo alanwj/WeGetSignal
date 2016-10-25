@@ -10,7 +10,6 @@ WeGetSignal_SOURCES = \
     function_controller.c \
     function_display.h \
     function_display.c \
-    resources.c \
     sine.h \
     sine.c \
     weighted_sum.h \
@@ -21,8 +20,15 @@ WeGetSignal_SOURCES = \
     wgs_app_window.h \
     wgs_app_window.c
 
+nodist_WeGetSignal_SOURCES = $(BUILT_SOURCES)
+
 BUILT_SOURCES = resources.c
 CLEANFILES = $(BUILT_SOURCES)
 
 resources.c: wgs.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies wgs.gresource.xml)
 	$(GLIB_COMPILE_RESOURCES) $(srcdir)/wgs.gresource.xml --target=$@ --sourcedir=$(srcdir) --generate-source
+
+EXTRA_DIST = \
+    function-controller.ui \
+    main-window.ui \
+    wgs.gresource.xml
