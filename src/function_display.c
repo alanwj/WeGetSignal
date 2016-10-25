@@ -48,19 +48,37 @@ static cairo_surface_t* PlotSamples(GtkWidget* widget) {
       cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
   cairo_t* cr = cairo_create(surface);
 
+  // Draw empty background.
   cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
   cairo_rectangle(cr, 0.0, 0.0, width, height);
   cairo_fill(cr);
 
+  // Set y=0.0 in the center.
+  cairo_translate(cr, 0.0, height / 2.0);
+
+  // Flip the y-axis to match how functions are normally plotted.
+  cairo_scale(cr, 1.0, -1.0);
+
+  // Draw time axis.
+  cairo_set_source_rgb(cr, 0.2, 0.2, 0.2);
+  cairo_move_to(cr, 0.0, 0.0);
+  cairo_line_to(cr, width, 0.0);
+
+  // Draw quarter markings.
+  for (guint i = 1; i < 4; ++i) {
+    double x = i * (width / 4.0);
+    cairo_move_to(cr, x, height);
+    cairo_line_to(cr, x, -height);
+  }
+  cairo_stroke(cr);
+
   // If there is a Function, plot the samples.
   if (self->fn != NULL) {
     cairo_set_source_rgb(cr, 0.0, 1.0, 0.0);
-    cairo_translate(cr, 0.0, height / 2.0);
 
-    // This should be doable with cairo_scale, but it doesn't work for whatever
-    // reason.
+    // This scaling is done manually to maintain the 1px width plot lines.
     const double xscale = width / (double)(self->sample_count - 1);
-    const double yscale = height / -2.0;
+    const double yscale = height / 2.0;
 
     cairo_move_to(cr, 0.0, self->samples[0]);
     for (size_t i = 1; i < self->sample_count; ++i) {
