@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/com/alanwj/WeGetSignal">
     <file preprocess="xml-stripblanks">main-window.ui</file>
+    <file preprocess="xml-stripblanks">function-controller.ui</file>
   </gresource>
 </gresources>

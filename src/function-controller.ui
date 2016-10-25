@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="FunctionController">
+    <child>
+      <object id="master-box" class="GtkBox">
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+        <child>
+          <object id="master-frame" class="GtkFrame">
+            <property name="label">Function</property>
+            <child>
+              <object id="content-box" class="GtkBox">
+                <property name="border-width">5</property>
+                <property name="spacing">10</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+                <child>
+                  <object id="function-display" class="FunctionDisplay">
+                    <property name="height-request">150</property>
+                  </object>
+                </child>
+                <child>
+                  <object id="property-box" class="GtkBox">
+                    <property name="spacing">10</property>
+                    <child>
+                      <object id="amp-label" class="GtkLabel">
+                        <property name="label">Amp:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object id="amp-entry" class="GtkEntry">
+                      </object>
+                    </child>
+                    <child>
+                      <object id="freq-label" class="GtkLabel">
+                        <property name="label">Freq:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object id="freq-entry" class="GtkEntry">
+                      </object>
+                    </child>
+                    <child>
+                      <object id="phase-label" class="GtkLabel">
+                        <property name="label">Phase:</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object id="phase-entry" class="GtkEntry">
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

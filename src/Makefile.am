@@ -6,6 +6,8 @@ WeGetSignal_LDADD = @GTK_LIBS@
 WeGetSignal_SOURCES = \
     function.h \
     function.c \
+    function_controller.h \
+    function_controller.c \
     function_display.h \
     function_display.c \
     resources.c \
